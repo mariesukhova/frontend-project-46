@@ -24,20 +24,20 @@ jobs:
           persist-credentials: false
 
       - name: Install
-        run: npm install
+        run: make install
 
       - name: Run Test
-        run: npm run test
+        run: make test
 
-      - name: Build 
-        run: npm run build
+      # - name: Build 
+      #   run: npm run build
 
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@3.7.1
-        with:
-          # в значение GITHUB_TOKEN помещается ссылка на ваш секрет в репозитории
-          # в данном случае его название KEY
-          GITHUB_TOKEN: ${{ secrets.KEY }}
-          BRANCH: gh-pages
-          FOLDER: public
-          CLEAN: true
+      # - name: Deploy
+      #   uses: JamesIves/github-pages-deploy-action@3.7.1
+      #   with:
+      #     # в значение GITHUB_TOKEN помещается ссылка на ваш секрет в репозитории
+      #     # в данном случае его название KEY
+      #     GITHUB_TOKEN: ${{ secrets.KEY }}
+      #     BRANCH: gh-pages
+      #     FOLDER: public
+      #     CLEAN: true
