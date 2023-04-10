@@ -23,6 +23,9 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Lint
+        run: make lint
+
       - name: Install
         run: make install
 
