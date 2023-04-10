@@ -13,13 +13,13 @@ test('test1', async () => {
   const result = gendiff(filePath1, filePath2);
 
   const diff = `{
-    - follow : false
-      host : hexlet.io
-    - proxy : 123.234.53.22
-    - timeout : 50 
-    + timeout : 20
-    + verbose : true
-   }`
+ - follow : false
+   host : hexlet.io
+ - proxy : 123.234.53.22
+ - timeout : 50 
+ + timeout : 20
+ + verbose : true
+}`
 
   expect(result).toEqual(diff);
 });
