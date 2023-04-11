@@ -36,11 +36,11 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
-      - name: Lint
-        run: make lint
-
       - name: Install
         run: make install
+        
+      - name: Lint
+        run: make lint
 
       - name: Run Test
         run: make test
