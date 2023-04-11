@@ -1,34 +1,16 @@
 import fs from 'fs';
-import _ from 'lodash';
 import path from 'path';
+import getDiff from './getDiff.js';
+import parser from './parser.js';
 
 const gendiff = (filepath1, filepath2) => {
   const firstFile = fs.readFileSync(path.resolve(filepath1));
   const secondFile = fs.readFileSync(path.resolve(filepath2));
 
-  const firstFileParsed = JSON.parse(firstFile);
-  const secondFileParsed = JSON.parse(secondFile);
+  const firstFileParsed = parser(firstFile, path.extname(filepath1));
+  const secondFileParsed = parser(secondFile, path.extname(filepath2));
 
-  const keys1 = Object.keys(firstFileParsed);
-  const keys2 = Object.keys(secondFileParsed);
-  const mergedKeys = _.union(keys1, keys2).sort();
-
-  const result = mergedKeys.map((key) => {
-    if (firstFileParsed[key] === secondFileParsed[key]) {
-      return `  ${key} : ${firstFileParsed[key]}`;
-    }
-    if (!(key in firstFileParsed) && key in secondFileParsed) {
-      return `+ ${key} : ${secondFileParsed[key]}`;
-    }
-    if (key in firstFileParsed && !(key in secondFileParsed)) {
-      return `- ${key} : ${firstFileParsed[key]}`;
-    }
-    return `- ${key} : ${firstFileParsed[key]}\n + ${key} : ${secondFileParsed[key]}`;
-  });
-
-  if (result.length === 0) return '{\n}';
-
-  return `{\n ${result.join('\n ')}\n}`;
+  return getDiff(firstFileParsed, secondFileParsed);
 };
 
 export default gendiff;
