@@ -1,13 +1,16 @@
 # название
 name: Project test & build
 
-# целевые события для запуска
-# в данном случае это push и pull_request, в ветку master
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+
+strategy:
+  # Node versions list
+  matrix:
+    node-version: [18.x]
 
 # выполняемые действия
 jobs:
@@ -18,10 +21,18 @@ jobs:
     # name - название шага
     # в github actions будет выводиться название шага, и процессы
     steps:
-      - name: Checkout 
-        uses: actions/checkout@v2.3.1
+      # Check-out repository under GitHub workspace
+        # https://github.com/actions/checkout
+      - uses: actions/checkout@v2
+        # Step's name
+      - name: Use Node.js ${{ matrix.node-version }}
+        # Configures the node version used on GitHub-hosted runners
+        # https://github.com/actions/setup-node
+        uses: actions/setup-node@v2
+        # The Node.js version to configure
         with:
-          persist-credentials: false
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
 
       - name: Lint
         run: make lint
@@ -31,6 +42,13 @@ jobs:
 
       - name: Run Test
         run: make test
+
+      uses: paambaati/codeclimate-action@v3.0.0
+        # Add Code Climate secret key
+        env:
+          CC_TEST_REPORTER_ID : ${{ secrets.CC_TEST_REPORTER_ID }}
+        with:
+          coverageCommand: make test-coverage
 
       # - name: Build 
       #   run: npm run build
