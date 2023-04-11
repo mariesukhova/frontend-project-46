@@ -23,8 +23,11 @@ const gendiff = (filepath1, filepath2) => {
     if (key in firstFileParsed && !(key in secondFileParsed)) {
       return `- ${key} : ${firstFileParsed[key]}`;
     }
-    return `- ${key} : ${firstFileParsed[key]} \n + ${key} : ${secondFileParsed[key]}`;
+    return `- ${key} : ${firstFileParsed[key]}\n + ${key} : ${secondFileParsed[key]}`;
   });
+
+  if (result.length === 0) return '{\n}';
+
   return `{\n ${result.join('\n ')}\n}`;
 };
 
