@@ -1,28 +1,30 @@
 # название
 name: Project test & build
 
+env:
+  CI: true
+
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
 
-strategy:
-  # Node versions list
-  matrix:
-    node-version: [18.x]
-
 # выполняемые действия
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     
+    strategy:
+      # Node versions list
+      matrix:
+        node-version: [18.x]
     # запускаются по шагам
     # name - название шага
     # в github actions будет выводиться название шага, и процессы
     steps:
       # Check-out repository under GitHub workspace
-        # https://github.com/actions/checkout
+      # https://github.com/actions/checkout
       - uses: actions/checkout@v2
         # Step's name
       - name: Use Node.js ${{ matrix.node-version }}
@@ -34,19 +36,22 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
-      - name: Lint
-        run: make lint
-
       - name: Install
         run: make install
+        
+      - name: Lint
+        run: make lint
 
       - name: Run Test
         run: make test
 
-      uses: paambaati/codeclimate-action@v3.0.0
+      - name: Test & publish code coverage
+        # Publish code coverage on Code Climate
+        # https://github.com/paambaati/codeclimate-action
+        uses: paambaati/codeclimate-action@v3.2.0
         # Add Code Climate secret key
         env:
-          CC_TEST_REPORTER_ID : ${{ secrets.CC_TEST_REPORTER_ID }}
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
           coverageCommand: make test-coverage
 
