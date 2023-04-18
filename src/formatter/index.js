@@ -7,8 +7,10 @@ const getFormat = (data, format) => {
       return getStylish(data);
     case 'plain':
       return getPlain(data);
+    case 'json':
+      return JSON.stringify(data);
     default:
-      return getStylish(data);
+      throw new Error(`${format} is not supported`);
   }
 };
 
