@@ -107,3 +107,23 @@ test('same json files with plain format', async () => {
 
   expect(diff).toEqual(result);
 });
+
+test('different json files with JSON format', async () => {
+  const filePath1 = getFixturePath('file1.json');
+  const filePath2 = getFixturePath('file2.json');
+  const resultPath = getFixturePath('resultJSON.txt');
+  const result = getContent(resultPath);
+  const diff = gendiff(filePath1, filePath2, 'json');
+
+  expect(diff).toEqual(result);
+});
+
+test('different yaml files with JSON format', async () => {
+  const filePath1 = getFixturePath('file1.yaml');
+  const filePath2 = getFixturePath('file2.yaml');
+  const resultPath = getFixturePath('resultJSON.txt');
+  const result = getContent(resultPath);
+  const diff = gendiff(filePath1, filePath2, 'json');
+
+  expect(diff).toEqual(result);
+});
