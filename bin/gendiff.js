@@ -9,9 +9,8 @@ program
   .version('output the version number')
   .option('-f, --format <type>', 'output format')
   .arguments('<filepath1> <filepath2>')
-  .action((f1, f2) => {
-    const diff = gendiff(f1, f2);
-    console.log(diff);
+  .action((f1, f2, formatName) => {
+    console.log(gendiff(f1, f2, formatName));
   });
 program.parse();
 
