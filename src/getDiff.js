@@ -54,7 +54,8 @@ export default function getDiff(obj1, obj2) {
         value: !(key in obj1) && key in obj2 ? value2 : value1,
       };
     }
+    return null;
   });
 
-  return res;
+  return res.filter((i) => i !== null);
 }
