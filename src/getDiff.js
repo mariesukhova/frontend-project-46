@@ -9,55 +9,35 @@ function getMergedKeys(obj1, obj2) {
   return _.sortBy(allKeys);
 }
 
+function getType(key, obj1, obj2) {
+  if ((key in obj1 && key in obj2) || obj1[key] === obj2[key]) {
+    return 'common';
+  }
+  if (!(key in obj1) && key in obj2) {
+    return 'added';
+  }
+  if (key in obj1 && !(key in obj2)) {
+    return 'deleted';
+  }
+  return 'different value';
+}
+
 export default function getDiff(obj1, obj2) {
   const mergedKeys = getMergedKeys(obj1, obj2);
   const res = mergedKeys.map((key) => {
     const value1 = obj1[key];
     const value2 = obj2[key];
+    const type = getType(key, obj1, obj2);
     if (isParentNode(value1) && isParentNode(value2)) {
-      if ((key in obj1) && (key in obj2)) {
-        return {
-          isParent: true,
-          type: 'common',
-          key,
-          value: getDiff(value1, value2),
-        };
-      }
-      if (!(key in obj1) && key in obj2) {
-        return {
-          isParent: true,
-          type: 'added',
-          key,
-          value: getDiff(value1, value2),
-        };
-      }
-      if (key in obj1 && !(key in obj2)) {
-        return {
-          isParent: true,
-          type: 'deleted',
-          key,
-          value: getDiff(value1, value2),
-        };
-      }
+      return {
+        isParent: true,
+        type,
+        key,
+        value: getDiff(value1, value2),
+      };
     }
 
     if (!isParentNode(value1) || !isParentNode(value2)) {
-      if (!(key in obj1) && key in obj2) {
-        return {
-          isParent: false,
-          type: 'added',
-          key,
-          value: value2,
-        };
-      }
-      if (key in obj1 && !(key in obj2)) {
-        return {
-          isParent: false,
-          type: 'deleted',
-          key,
-          value: value1,
-        };
-      }
       if (key in obj1 && key in obj2 && value1 !== value2) {
         return {
           isParent: false,
@@ -67,17 +47,14 @@ export default function getDiff(obj1, obj2) {
           value2,
         };
       }
-      if (value1 === value2) {
-        return {
-          isParent: false,
-          type: 'common',
-          key,
-          value: value1,
-        };
-      }
+      return {
+        isParent: false,
+        type,
+        key,
+        value: !(key in obj1) && key in obj2 ? value2 : value1,
+      };
     }
-    return null;
   });
 
-  return res.filter((i) => i !== null);
+  return res;
 }
