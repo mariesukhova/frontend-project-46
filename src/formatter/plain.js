@@ -11,28 +11,28 @@ const formatValue = (val) => {
 };
 
 export default function getPlain(diff) {
-  const result = [];
-
   const iter = (data, path = '') => {
-    data.forEach(({
+    const result = data.map(({
       key, value, type, isParent, value1, value2,
     }) => {
       const newPath = !path ? key : `${path}.${key}`;
 
       if (type === 'added') {
-        result.push(`Property '${newPath}' was added with value: ${formatValue(value)}`);
+        return `Property '${newPath}' was added with value: ${formatValue(value)}`;
       }
       if (type === 'deleted') {
-        result.push(`Property '${newPath}' was removed`);
+        return `Property '${newPath}' was removed`;
       }
       if (type === 'different value') {
-        result.push(`Property '${newPath}' was updated. From ${formatValue(value1)} to ${formatValue(value2)}`);
+        return `Property '${newPath}' was updated. From ${formatValue(value1)} to ${formatValue(value2)}`;
       }
-
-      if (isParent) iter(value, newPath);
+      if (isParent) {
+        return iter(value, newPath);
+      }
+      return null;
     });
 
-    return result.join('\n');
+    return result.filter((i) => i !== null).join('\n');
   };
 
   return iter(diff);
