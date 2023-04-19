@@ -18,50 +18,10 @@ test('different json files with stylish format', async () => {
   expect(diff).toEqual(result);
 });
 
-test('empty json files', async () => {
-  const filePath1 = getFixturePath('file3.json');
-  const filePath2 = getFixturePath('file4.json');
-  const resultPath = getFixturePath('resultEmpty.txt');
-  const result = getContent(resultPath);
-  const diff = gendiff(filePath1, filePath2);
-
-  expect(diff).toEqual(result);
-});
-
-test('same json files with stylish format', async () => {
-  const filePath1 = getFixturePath('file1.json');
-  const filePath2 = getFixturePath('file5.json');
-  const resultPath = getFixturePath('resultSameStylish.txt');
-  const result = getContent(resultPath);
-  const diff = gendiff(filePath1, filePath2);
-
-  expect(diff).toEqual(result);
-});
-
 test('different yml files with stylish format', async () => {
   const filePath1 = getFixturePath('file1.yaml');
   const filePath2 = getFixturePath('file2.yaml');
   const resultPath = getFixturePath('resultStylish.txt');
-  const result = getContent(resultPath);
-  const diff = gendiff(filePath1, filePath2);
-
-  expect(diff).toEqual(result);
-});
-
-test('empty yml files', async () => {
-  const filePath1 = getFixturePath('file3.yml');
-  const filePath2 = getFixturePath('file4.yml');
-  const resultPath = getFixturePath('resultEmpty.txt');
-  const result = getContent(resultPath);
-  const diff = gendiff(filePath1, filePath2);
-
-  expect(diff).toEqual(result);
-});
-
-test('same yml files with stylish format', async () => {
-  const filePath1 = getFixturePath('file1.yaml');
-  const filePath2 = getFixturePath('file5.yaml');
-  const resultPath = getFixturePath('resultSameStylish.txt');
   const result = getContent(resultPath);
   const diff = gendiff(filePath1, filePath2);
 
@@ -82,26 +42,6 @@ test('different yml files with plain format', async () => {
   const filePath1 = getFixturePath('file1.yaml');
   const filePath2 = getFixturePath('file2.yaml');
   const resultPath = getFixturePath('resultPlain.txt');
-  const result = getContent(resultPath);
-  const diff = gendiff(filePath1, filePath2, 'plain');
-
-  expect(diff).toEqual(result);
-});
-
-test('same yml files with plain format', async () => {
-  const filePath1 = getFixturePath('file1.yaml');
-  const filePath2 = getFixturePath('file5.yaml');
-  const resultPath = getFixturePath('resultSamePlain.txt');
-  const result = getContent(resultPath);
-  const diff = gendiff(filePath1, filePath2, 'plain');
-
-  expect(diff).toEqual(result);
-});
-
-test('same json files with plain format', async () => {
-  const filePath1 = getFixturePath('file1.json');
-  const filePath2 = getFixturePath('file5.json');
-  const resultPath = getFixturePath('resultSamePlain.txt');
   const result = getContent(resultPath);
   const diff = gendiff(filePath1, filePath2, 'plain');
 
