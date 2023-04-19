@@ -4,10 +4,10 @@ const formatValue = (val) => {
   if (_.isObject(val)) {
     return '[complex value]';
   }
-  if (val === null || typeof val === 'boolean') {
-    return val;
+  if (typeof val === 'string') {
+    return `'${val}'`;
   }
-  return `'${val}'`;
+  return `${val}`;
 };
 
 export default function getPlain(diff) {
@@ -19,18 +19,14 @@ export default function getPlain(diff) {
     }) => {
       const newPath = !path ? key : `${path}.${key}`;
 
-      switch (type) {
-        case 'added':
-          result.push(`Property '${newPath}' was added with value: ${formatValue(value)}`);
-          break;
-        case 'deleted':
-          result.push(`Property '${newPath}' was removed`);
-          break;
-        case 'different value':
-          result.push(`Property '${newPath}' was updated. From ${formatValue(value1)} to ${formatValue(value2)}`);
-          break;
-        default:
-          break;
+      if (type === 'added') {
+        result.push(`Property '${newPath}' was added with value: ${formatValue(value)}`);
+      }
+      if (type === 'deleted') {
+        result.push(`Property '${newPath}' was removed`);
+      }
+      if (type === 'different value') {
+        result.push(`Property '${newPath}' was updated. From ${formatValue(value1)} to ${formatValue(value2)}`);
       }
 
       if (isParent) iter(value, newPath);
