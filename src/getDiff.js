@@ -10,16 +10,13 @@ function getMergedKeys(obj1, obj2) {
 }
 
 function getType(key, obj1, obj2) {
-  if ((key in obj1 && key in obj2) || obj1[key] === obj2[key]) {
-    return 'common';
-  }
   if (!(key in obj1) && key in obj2) {
     return 'added';
   }
   if (key in obj1 && !(key in obj2)) {
     return 'deleted';
   }
-  return 'different value';
+  return 'common';
 }
 
 export default function getDiff(obj1, obj2) {
@@ -36,26 +33,22 @@ export default function getDiff(obj1, obj2) {
         value: getDiff(value1, value2),
       };
     }
-
-    if (!isParentNode(value1) || !isParentNode(value2)) {
-      if (key in obj1 && key in obj2 && value1 !== value2) {
-        return {
-          isParent: false,
-          type: 'different value',
-          key,
-          value1,
-          value2,
-        };
-      }
+    if (key in obj1 && key in obj2 && value1 !== value2) {
       return {
         isParent: false,
-        type,
+        type: 'different value',
         key,
-        value: !(key in obj1) && key in obj2 ? value2 : value1,
+        value1,
+        value2,
       };
     }
-    return null;
+    return {
+      isParent: false,
+      type,
+      key,
+      value: !(key in obj1) && key in obj2 ? value2 : value1,
+    };
   });
 
-  return res.filter((i) => i !== null);
+  return res;
 }
