@@ -2,13 +2,6 @@ import _ from 'lodash';
 
 export const isParentNode = (obj) => _.isObject(obj) && !Array.isArray(obj);
 
-function getMergedKeys(obj1, obj2) {
-  const keys1 = Object.keys(obj1);
-  const keys2 = Object.keys(obj2);
-  const allKeys = _.union(keys1, keys2);
-  return _.sortBy(allKeys);
-}
-
 function getType(key, obj1, obj2) {
   if (!(key in obj1) && key in obj2) {
     return 'added';
@@ -17,6 +10,13 @@ function getType(key, obj1, obj2) {
     return 'deleted';
   }
   return 'common';
+}
+
+function getMergedKeys(obj1, obj2) {
+  const keys1 = Object.keys(obj1);
+  const keys2 = Object.keys(obj2);
+  const allKeys = _.union(keys1, keys2);
+  return _.sortBy(allKeys);
 }
 
 export default function getDiff(obj1, obj2) {
@@ -49,6 +49,5 @@ export default function getDiff(obj1, obj2) {
       value: !(key in obj1) && key in obj2 ? value2 : value1,
     };
   });
-
   return res;
 }
