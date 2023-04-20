@@ -16,7 +16,7 @@ How to use:
 Enter gendiff -h for help. Enter gendiff path/to/file.yml another/path/file.json for default stylish format report. Enter gendiff --format plain/json path/to/file.yml another/path/file.json for plain or json format report.
 
 **Asciinema of gendiff for json files with default (stylish), plain and json format**
-[![asciicast](https://asciinema.org/a/dq06zUUG9Fs7JXXgFdbaPvoD7)](https://asciinema.org/a/dq06zUUG9Fs7JXXgFdbaPvoD7)
+[![asciicast](https://asciinema.org/a/6WOYo5wm6qkdPbMyNfWw1lQg6.svg)](https://asciinema.org/a/6WOYo5wm6qkdPbMyNfWw1lQg6)
 
 **Asciinema of gendiff for yaml files with default (stylish), plain and json format**
-[![asciicast](https://asciinema.org/a/HEIjjO4jXzSSaqndRY2aLSLdB)](https://asciinema.org/a/HEIjjO4jXzSSaqndRY2aLSLdB)
+[![asciicast](https://asciinema.org/a/ozUSmOEwD87UH51wq99cIuUuq.svg)](https://asciinema.org/a/ozUSmOEwD87UH51wq99cIuUuq)
